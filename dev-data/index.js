@@ -2,6 +2,8 @@ const fs = require('fs');
 const http = require('http');
 const url = require('url'); //permit to analyse the request or the query url
 const replaceTemplate = require('../modules/replaceTemplate');
+const slugify = require('slugify') //module that return the last part of an url search string
+//example 127.0.0.1:8000/product/fresh-avocados -> the fresh-avocados string is the slugify part of the url
 
 ////---- FILE ---- ////
 
@@ -39,6 +41,11 @@ const tempProduct = fs.readFileSync(`../templates/template-product.html`, 'utf-8
 
 const data = fs.readFileSync(`../dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
+
+//Using slugs test
+const slugs = dataObj.map(el => slugify(el.productName, { lower: true}))
+console.log(slugs);
+
 
 //Create the server Object
 const server = http.createServer((req, res) => {
